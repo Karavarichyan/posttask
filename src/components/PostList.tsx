@@ -1,54 +1,30 @@
-import { Link } from 'react-router-dom'
-import { usePostsQuery } from '../hooks/usePostsQuery'
+import { Link } from 'react-router-dom';
+import { usePostsQuery } from '@/hooks/usePostsQuery';
+import { Loader2 } from 'lucide-react';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+const Spinner = () => (
+  <div className="flex justify-center items-center py-6">
+    <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+  </div>
+);
 
-import { Button } from '@/components/ui/button'
+export default function PostList() {
+  const { data, isLoading, isError } = usePostsQuery();
 
-function PostList() {
-  const { data } = usePostsQuery()
+  if (isLoading) return <Spinner />;
+  if (isError) return <p>Error loading posts</p>;
 
   return (
-    <>
-      {/* <h1 className="text-3xl font-bold text-center mb-6">Posts</h1> */}
-
-      {data?.slice(0, 20).map(post => (
-        <Card key={post.id} className="mb-4">
-          <CardHeader>
-            <CardTitle>Post #{post.id}</CardTitle>
-            <CardDescription>Author: User {post.userId}</CardDescription>
-          </CardHeader>
-
-          <CardContent className="space-y-2">
-            <p>
-              <strong>User ID:</strong> {post.userId}
-            </p>
-            <p>
-              <strong>Post ID:</strong> {post.id}
-            </p>
-            <p>
-              <strong>Title:</strong> {post.title}
-            </p>
-          </CardContent>
-
-          <CardFooter className="justify-end">
-            <Link to={`/post/${post.id}`}>
-              <Button variant="outline" size="sm">
-                View Post
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
+    <div className="space-y-4">
+      {data?.map((post) => (
+        <div key={post.id} className="border p-4 rounded shadow">
+          <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+          <p className="mb-4">{post.body}</p>
+          <Link to={`/post/${post.id}`} className="text-blue-500 underline">
+            View Post
+          </Link>
+        </div>
       ))}
-    </>
-  )
+    </div>
+  );
 }
-
-export default PostList
