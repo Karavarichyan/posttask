@@ -17,7 +17,7 @@ function PostList() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-4">Vite + React</h1>
+      {/* <h1 className="text-3xl font-bold text-center mb-6">Posts</h1> */}
 
       {data?.slice(0, 20).map(post => (
         <Card key={post.id} className="mb-4">

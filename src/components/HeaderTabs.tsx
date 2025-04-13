@@ -1,29 +1,41 @@
-// src/components/HeaderTabs.tsx
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from '@/components/ui/tabs';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function HeaderTabs() {
-  return (
-    <Tabs defaultValue="posts" className="w-full max-w-4xl mx-auto mt-6">
-      <TabsList className="flex justify-center gap-4">
-        <TabsTrigger value="posts">Posts</TabsTrigger>
-        <TabsTrigger value="comments">Comments</TabsTrigger>
-        <TabsTrigger value="users">Users</TabsTrigger>
-      </TabsList>
+  const location = useLocation();
+  const navigate = useNavigate();
 
-      <TabsContent value="posts">
-        <div className="p-4"> posts</div>
-      </TabsContent>
-      <TabsContent value="comments">
-        <div className="p-4"> coment</div>
-      </TabsContent>
-      <TabsContent value="users">
-        <div className="p-4">users</div>
-      </TabsContent>
+  const currentPath = location.pathname.replace('/', '') || 'posts';
+
+  // return (
+  //   <Tabs value={currentPath} className="w-full mb-6 flex justify-center">
+  //     <TabsList>
+  //       <TabsTrigger value="posts" onClick={() => navigate('/')}>
+  //         Posts
+  //       </TabsTrigger>
+  //       <TabsTrigger value="comments" onClick={() => navigate('/comments')}>
+  //         Comments
+  //       </TabsTrigger>
+  //       <TabsTrigger value="users" onClick={() => navigate('/users')}>
+  //         Users
+  //       </TabsTrigger>
+  //     </TabsList>
+  //   </Tabs>
+  // );
+  return (
+    <Tabs value={currentPath} className="w-full mb-6">
+      <TabsList className="flex justify-center w-full">
+        <TabsTrigger value="posts" onClick={() => navigate('/')} className="text-center">
+          Posts
+        </TabsTrigger>
+        <TabsTrigger value="comments" onClick={() => navigate('/comments')} className="text-center">
+          Comments
+        </TabsTrigger>
+        <TabsTrigger value="users" onClick={() => navigate('/users')} className="text-center">
+          Users
+        </TabsTrigger>
+      </TabsList>
     </Tabs>
   );
+
 }
